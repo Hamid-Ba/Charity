@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from accounts.models import User
+
 from .serializers import UserSerializer
 
 
@@ -18,5 +20,6 @@ class LogoutAPIView(APIView):
         )
 
 
-class UserRegistration(APIView):
-    pass
+class UserRegistration(generics.CreateAPIView):
+    model = User
+    serializer_class = UserSerializer
