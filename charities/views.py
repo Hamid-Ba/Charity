@@ -10,13 +10,36 @@ from charities.serializers import (
     TaskSerializer, CharitySerializer, BenefactorSerializer
 )
 
-
 class BenefactorRegistration(APIView):
-    pass
+    permission_classes = [IsAuthenticated,]
 
+    def post(self,request):
+        benefactor_serializer = BenefactorSerializer(data = request.data)
+        if benefactor_serializer.is_valid():
+            benefactor_serializer.save(user = request.user)
+            return Response(benefactor_serializer.data, status = status.HTTP_201_CREATED)
+
+        return Response(data = {
+            "message" : "Somthing Went Wrong",
+            "data" : request.data,
+            "error_messages" : benefactor_serializer.errors
+        }, status = status.HTTP_400_BAD_REQUEST)
 
 class CharityRegistration(APIView):
-    pass
+    permission_classes = [IsAuthenticated,]
+
+    def post(self,request):
+        chariry_serializer = CharitySerializer(data = request.data)
+        
+        if chariry_serializer.is_valid():
+            chariry_serializer.save(user = request.user)
+            return Response(chariry_serializer.data, status = status.HTTP_201_CREATED)
+
+        return Response(data = {
+            "message" : "Somthing Went Wrong",
+            "data" : request.data,
+            "error_messages" : chariry_serializer.errors
+        }, status = status.HTTP_400_BAD_REQUEST)
 
 
 class Tasks(generics.ListCreateAPIView):

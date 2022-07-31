@@ -1,3 +1,5 @@
+from dataclasses import field
+import re
 from rest_framework import serializers
 
 from .models import Benefactor
@@ -5,11 +7,15 @@ from .models import Charity, Task
 
 
 class BenefactorSerializer(serializers.ModelSerializer):
-    pass
+    class Meta():
+        model = Benefactor
+        fields = ("experience","free_time_per_week")
 
 
 class CharitySerializer(serializers.ModelSerializer):
-    pass
+    class Meta():
+        model = Charity
+        fields = ("name" , "reg_number")
 
 
 class TaskSerializer(serializers.ModelSerializer):
